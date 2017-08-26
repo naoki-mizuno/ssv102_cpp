@@ -9,7 +9,8 @@
 int
 main(int argc, char* argv[]) {
     ros::init(argc, argv, "ssv102_node");
-    ros::NodeHandle nh{"~"};
+    ros::NodeHandle nh;
+    ros::NodeHandle nh_p{"~"};
 
     // Get parameters
     std::string port;
@@ -17,13 +18,13 @@ main(int argc, char* argv[]) {
     std::map<std::string, std::string> msg_rates;
     std::string frame_id;
 
-    nh.getParam("port", port);
-    nh.param("baud", baud, 115200);
-    nh.param("jascs", msg_rates, std::map<std::string, std::string>{
+    nh_p.getParam("port", port);
+    nh_p.param("baud", baud, 115200);
+    nh_p.param("jascs", msg_rates, std::map<std::string, std::string>{
         {"GPGGA", "10"},
         {"GPHDT", "10"},
     });
-    nh.param("frame_id", frame_id, std::string{"heading_frame"});
+    nh_p.param("frame_id", frame_id, std::string{"heading_frame"});
 
 
     SSV102 ssv102{port, static_cast<unsigned>(baud)};
@@ -44,7 +45,7 @@ main(int argc, char* argv[]) {
 
     ssv102.send_jasc(msg_rates);
 
-    ros::Publisher nmea_pub = nh.advertise<nmea_msgs::Sentence>("/nmea_sentence", 10);
+    ros::Publisher nmea_pub = nh.advertise<nmea_msgs::Sentence>("nmea_sentence", 10);
     nmea_msgs::Sentence nmea;
     while (ros::ok()) {
         auto msg = ssv102.read_sentence();
