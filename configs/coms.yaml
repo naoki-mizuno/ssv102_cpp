@@ -1,5 +1,4 @@
-port: /dev/ttyUSB0
-#port: /dev/ttyUSB4
+port: /dev/ttyUSB4
 baud: 115200
 frame_id: 'ssv102'
 msg_rates: {
