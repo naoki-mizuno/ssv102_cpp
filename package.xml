@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>ssv102</name>
+  <name>ssv102_cpp</name>
   <version>0.1.0</version>
   <description>Hemisphere ssV-102 driver</description>
 
